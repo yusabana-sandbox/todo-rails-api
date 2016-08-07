@@ -31,9 +31,11 @@ group :development, :test do
   gem 'rspec-json_matcher'
   gem 'factory_girl_rails'
   gem 'database_rewinder'
+  gem 'rails-controller-testing'
 
   gem 'pry-rails'
   gem 'pry-doc'
+  gem 'pry-byebug'
   gem 'tapp-awesome_print'
 end
 
