@@ -23,6 +23,17 @@ gem 'puma', '~> 3.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+
+  # Rspec
+  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-request_describer'
+  gem 'rspec-json_matcher'
+  gem 'factory_girl_rails'
+  gem 'database_rewinder'
+
+  gem 'pry-rails'
+  gem 'pry-doc'
+  gem 'tapp-awesome_print'
 end
 
 group :development do
