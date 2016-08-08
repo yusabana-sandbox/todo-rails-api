@@ -64,4 +64,7 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseRewinder.clean
   end
+
+  config.include RSpec::RequestDescriber
+  config.include RSpec::JsonMatcher
 end
