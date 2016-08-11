@@ -1,0 +1,10 @@
+---
+"$schema": http://json-schema.org/draft-04/hyper-schema
+description: Todo API インターフェース仕様
+id: todo_api
+title: Todo API v1
+type:
+  - object
+links:
+  - href: https://hoge.example.com
+    rel:  self

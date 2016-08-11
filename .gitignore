@@ -16,6 +16,9 @@
 # Ignore Byebug command history file.
 .byebug_history
 
+# OS environment ignore file.
+.DS_Store
+
 
 /vendor/bundle/
 /vendor/bin/
