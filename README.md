@@ -1,48 +1,46 @@
-# README
+# Todo Apps
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Todo API
 
-Things you may want to cover:
+## System dependencies
 
-* Ruby version
+* Ruby 2.3 or higher.
+* PostgreSQL9.5 or higher.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
 
 * How to run the test suite
-
 * Services (job queues, cache servers, search engines, etc.)
-
 * Deployment instructions
 
-* ...
 
+## Application setup
+
+```
+% bundle install
+% cp config/database.yml.base config/database.yml
+% bundle exec rails db:create
+% bundle exec rails db:migrate
+```
+
+## JSON Schema
+
+### API Document
+https://github.com/yusabana/todo-rails/blob/jsonschema/jsonschema/dist/schema.md
 
 
 
 ```
-bundle exec rails new app-name --api --skip-bundle -d postgresql
-```
-
-
-
-```
-cp config/database.yml.base config/database.yml
-
-bundle exec rails g scaffold
-```
-
-
-
-```
-cd jsonschema/api/ && bundle exec prmd init --yaml todo -o schemata/todo.yml
+% cd jsonschema/api/ && bundle exec prmd init --yaml todo -o schemata/todo.yml
 
 # document生成
-cd jsonschema/api/ && sh build.sh
+% cd jsonschema/api/ && sh build.sh
+```
+
+
+
+## History of my doing command (memo)
+
+```
+% bundle exec rails new app-name --api --skip-bundle -d postgresql
+% bundle exec rails g scaffold todo title:string body:text -p
 ```
