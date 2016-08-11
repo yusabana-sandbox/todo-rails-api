@@ -37,3 +37,12 @@ cp config/database.yml.base config/database.yml
 
 bundle exec rails g scaffold
 ```
+
+
+
+```
+cd jsonschema/api/ && bundle exec prmd init --yaml todo -o schemata/todo.yml
+
+# document生成
+cd jsonschema/api/ && sh build.sh
+```

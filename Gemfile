@@ -46,6 +46,10 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'annotate', github: 'ctran/annotate_models'
+
+  # API doc and spec and stub
+  gem 'prmd', '0.11.4' # JSON Schema initializer and management tool
+  gem 'committee'      # Rack middleware of Json Schema for validator and stub server
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
