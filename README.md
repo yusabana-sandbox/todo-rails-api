@@ -32,7 +32,7 @@ https://github.com/yusabana/todo-rails/blob/jsonschema/jsonschema/dist/schema.md
 ```
 % cd jsonschema/api/ && bundle exec prmd init --yaml todo -o schemata/todo.yml
 
-# document生成
+# generate document
 % cd jsonschema/api/ && sh build.sh
 ```
 
