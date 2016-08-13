@@ -47,7 +47,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  gem 'annotate', github: 'ctran/annotate_models'
+  gem 'annotate'
 
   # API doc and spec and stub
   gem 'prmd', '0.11.4' # JSON Schema initializer and management tool
