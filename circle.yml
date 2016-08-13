@@ -10,8 +10,10 @@ machine:
 ## Customize dependencies
 dependencies:
   override:
-    - bundle install -j4: # note ':' here
+    - bundle install -j4 --path=vendor/bundle: # note ':' here
         timeout: 180 # fail if command has no output for 3 minutes
+  cache_directories:
+    - vendor/bundle
 
 ## Customize database setup
 database:
