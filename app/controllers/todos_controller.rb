@@ -1,6 +1,16 @@
 class TodosController < ApplicationController
   before_action :set_todo, only: [:show, :update, :destroy]
 
+  validates :create do
+    string :title, required: true, strong: true
+    string :body, strong: true
+  end
+
+  validates :update do
+    string :title, required: true, strong: true
+    string :body, strong: true
+  end
+
   # GET /todos
   def index
     @todos = Todo.all
@@ -15,7 +25,7 @@ class TodosController < ApplicationController
 
   # POST /todos
   def create
-    @todo = Todo.new(todo_params)
+    @todo = Todo.new(permitted_params)
 
     if @todo.save
       render json: @todo, status: :created, location: @todo
@@ -26,7 +36,7 @@ class TodosController < ApplicationController
 
   # PATCH/PUT /todos/1
   def update
-    if @todo.update(todo_params)
+    if @todo.update(permitted_params)
       render json: @todo
     else
       render json: @todo.errors, status: :unprocessable_entity
@@ -39,13 +49,8 @@ class TodosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_todo
-      @todo = Todo.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def todo_params
-      params.require(:todo).permit(:title, :body)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_todo
+    @todo = Todo.find(params[:id])
+  end
 end

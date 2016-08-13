@@ -56,16 +56,26 @@ RSpec.describe 'Todos', type: :request do
       let(:create_attributes) { attributes_for(:todo) }
 
       it 'return 201 and create todo' do
-        params['todo'] = create_attributes
-        is_expected.to eq 201
+        params.merge!(create_attributes)
+        expect { is_expected.to eq 201 }.to change(Todo, :count).by(1)
         expect(response.body).to be_json_including(
           todo: {title: create_attributes[:title], body: create_attributes[:body]}
         )
       end
     end
 
-    context "with valid params" do
-      pending 'still does not exist invalid params'
+    context "with invalid params" do
+      context 'title params' do
+        it 'return 400, not exist' do
+          params.merge!({body: 'aa'})
+          is_expected.to eq 400
+        end
+
+        it 'return 422, empty' do
+          params.merge!({title: '', body: 'aa'})
+          is_expected.to eq 422
+        end
+      end
     end
   end
 
@@ -77,7 +87,7 @@ RSpec.describe 'Todos', type: :request do
       let(:update_attributes) { {title: 'update_title', body: 'update_body'} }
 
       it 'return 200 and update todo' do
-        params['todo'] = update_attributes
+        params.merge!(update_attributes)
         is_expected.to eq 200
         expect(response.body).to be_json_as(
           todo: {id: todo.id, title: update_attributes[:title], body: update_attributes[:body]}
@@ -104,7 +114,17 @@ RSpec.describe 'Todos', type: :request do
       end
 
       context 'invalid post params' do
-        pending 'still does not exist invalid post params'
+        context 'title params' do
+          it 'return 400, not exist' do
+            params.merge!({body: 'aa'})
+            is_expected.to eq 400
+          end
+
+          it 'return 422, empty' do
+            params.merge!({title: '', body: 'aa'})
+            is_expected.to eq 422
+          end
+        end
       end
     end
   end
