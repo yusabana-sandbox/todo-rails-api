@@ -42,11 +42,19 @@ TEST of Curl. Please read following documents.
 * API Document URL  
 https://github.com/yusabana/todo-rails/blob/master/jsonschema/dist/schema.md
 
-* API Document For generating.
+* API Document for generating
 
 ```
 % cd jsonschema/api/ && sh build.sh
 ```
+
+#### Run API Stub Server with committee
+
+```
+% bundle exec committee -p <port> jsonschema/dist/schema.json
+```
+
+ex. `% curl -X GET http://localhost:<port>/todos`
 
 ### History of my doing command (memo)
 
