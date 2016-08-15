@@ -10,6 +10,7 @@ definitions:
   id:
     description: ユニークなID
     readOnly: true
+    example: 34
     type:
       - integer
   title:
@@ -27,11 +28,13 @@ definitions:
   created_at:
     description: when todo was created
     format: date-time
+    example: '2015-01-01T12:00:00Z'
     type:
       - string
   updated_at:
     description: when todo was updated
     format: date-time
+    example: '2015-01-01T12:00:00Z'
     type:
       - string
   todo:
@@ -43,16 +46,12 @@ definitions:
         "$ref": "#/definitions/todo/definitions/title"
       body:
         "$ref": "#/definitions/todo/definitions/body"
-      created_at:
-        "$ref": "#/definitions/todo/definitions/created_at"
-      updated_at:
-        "$ref": "#/definitions/todo/definitions/updated_at"
     type: object
 links:
   - description: Todoの内容をすべて取得する。
     href: "/todos"
     method: GET
-    rel: instances
+    rel: object
     targetSchema:
       properties:
         todos:
@@ -66,6 +65,11 @@ links:
     href: "/todos/{(%2Fschemata%2Ftodo%23%2Fdefinitions%2Fid)}"
     method: GET
     rel: self
+    targetSchema:
+      properties:
+        todo:
+          "$ref": "#/definitions/todo/definitions/todo"
+      type: object
     title: 詳細
 
   - description: リクエストされたタイトルと内容でTodo作成する。
@@ -81,8 +85,11 @@ links:
       required:
         - title
       type: object
-    type:
-      - object
+    targetSchema:
+      properties:
+        todo:
+          "$ref": "#/definitions/todo/definitions/todo"
+      type: object
     title: 新規作成
 
   - description: idで指定したTodoの情報を更新する。
@@ -99,12 +106,20 @@ links:
         - title
       type:
         - object
+    targetSchema:
+      properties:
+        todo:
+          "$ref": "#/definitions/todo/definitions/todo"
+      type: object
     title: 更新
 
   - description: 指定したidのTodoを削除する
     href: "/todos/{(%2Fschemata%2Ftodo%23%2Fdefinitions%2Fid)}"
     method: DELETE
     rel: destroy
+    response_example:
+      head: "HTTP/1.1 204 No Content"
+      body: "No body"
     title: Delete
 
 properties:
@@ -114,8 +129,4 @@ properties:
     "$ref": "#/definitions/todo/definitions/title"
   body:
     "$ref": "#/definitions/todo/definitions/body"
-  created_at:
-    "$ref": "#/definitions/todo/definitions/created_at"
-  updated_at:
-    "$ref": "#/definitions/todo/definitions/updated_at"
 id: schemata/todo

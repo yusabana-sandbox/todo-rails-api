@@ -32,24 +32,8 @@ Todo API (Rails5)
 % bundle exec rails server
 ```
 
-TEST of curl
-
-```
-List
-% curl http://localhost:3000/todos
-
-Self Detail
-% curl http://localhost:3000/:id
-
-Create
-% curl -XPOST -d 'title=TITLE_TEST&body=BODY_TEST' http://localhost:3000/todos
-
-Update
-% curl -XPATCH -d 'title=TITLE_UPDATE&body=BODY_UPDATE' http://localhost:3000/todos/:id
-
-Delete
-% curl -XDELETE http://localhost:3000/todos/:id
-```
+TEST of Curl. Please read following documents.
+[API Documents](https://github.com/yusabana/todo-rails/blob/master/jsonschema/dist/schema.md)
 
 ### JSON Schema
 
