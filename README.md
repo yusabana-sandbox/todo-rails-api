@@ -56,9 +56,22 @@ https://github.com/yusabana/todo-rails/blob/master/jsonschema/dist/schema.md
 
 ex. `% curl -X GET http://localhost:<port>/todos`
 
+### jwt(using gem of knock)
+
+* Gemfileでbcryptを有効にする
+* Userモデルを作成していることが前提(password_digest込み)
+
+```
+% bundle exec rails g knock:install
+% bundle exec rails g knock:token_controller user # Auth0などの外部認証サービスを使わない場合のsigninする機能を追加
+```
+
+paramsかHEADERにつけることで token をつけることで返す
+
 ### History of my doing command (memo)
 
 ```
 % bundle exec rails new todo-rails --api --skip-bundle -d postgresql
 % bundle exec rails g scaffold todo title:string body:text -p
+% bundle exec rails g model user username:string password_digest:string
 ```
