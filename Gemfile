@@ -13,7 +13,7 @@ gem 'active_model_serializers', '~> 0.10.0' # https://github.com/rails-api/activ
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -21,7 +21,8 @@ gem 'active_model_serializers', '~> 0.10.0' # https://github.com/rails-api/activ
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
-gem "weak_parameters"
+gem 'weak_parameters'
+gem 'knock'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -34,6 +35,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'database_rewinder'
   gem 'rails-controller-testing'
+  gem 'timecop'
 
   gem 'pry-rails'
   gem 'pry-doc'

@@ -1,4 +1,5 @@
 class TodosController < ApplicationController
+  before_action :authenticate_user
   before_action :set_todo, only: [:show, :update, :destroy]
 
   validates :create do
@@ -7,14 +8,13 @@ class TodosController < ApplicationController
   end
 
   validates :update do
-    string :title, required: true, strong: true
+    string :title, strong: true
     string :body, strong: true
   end
 
   # GET /todos
   def index
-    @todos = Todo.all
-
+    @todos = current_user.todos
     render json: @todos
   end
 
@@ -26,6 +26,7 @@ class TodosController < ApplicationController
   # POST /todos
   def create
     @todo = Todo.new(permitted_params)
+    @todo.user = current_user
 
     if @todo.save
       render json: @todo, status: :created, location: @todo
@@ -49,8 +50,7 @@ class TodosController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
   def set_todo
-    @todo = Todo.find(params[:id])
+    @todo = Todo.where(user_id: current_user.id).find(params[:id])
   end
 end
