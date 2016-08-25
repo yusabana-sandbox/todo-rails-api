@@ -35,6 +35,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'database_rewinder'
   gem 'rails-controller-testing'
+  gem 'timecop'
 
   gem 'pry-rails'
   gem 'pry-doc'
