@@ -51,7 +51,7 @@ https://github.com/yusabana/todo-rails/blob/master/jsonschema/dist/schema.md
 #### Run API Stub Server with committee
 
 ```
-% bundle exec committee -p <port> jsonschema/dist/schema.json
+% bundle exec committee-stub -p <port> jsonschema/dist/schema.json
 ```
 
 ex. `% curl -X GET http://localhost:<port>/todos`

@@ -9,7 +9,7 @@ TodoアプリケーションのAPIインターフェース仕様
 ### リクエスト形式
 
 * GETの場合はURIクエリを利用して検索条件をリクエストします。
-* GET以外の場合はリクエストボディに検索条件を埋め込む方式で条件やパラメータを含めてリクエストします。
+* GET以外の場合はリクエストボディに `Content-Type: application/json` 形式で条件やパラメータを含めてリクエストします。
 
 
 ### レスポンス形式
@@ -21,12 +21,33 @@ TodoアプリケーションのAPIインターフェース仕様
 
 ### ステータスコード
 
-`200`, `201`, `204`, `400`, `401`, `403`, `404`, `422`, `500`, `503` のステータスコードを利用する。
+* 正常処理
+  * `200`, `201`, `204`, 
+* 正常以外の処理
+  * `400`, `401`, `403`, `404`, `422`, `500`, `503` 
 
 
 ### エラー
 
 未定
+
+
+### 認証
+
+JWT(Json Web Token)トークンの仕組みを利用してAPIにアクセスします。
+
+#### アクセストークン
+
+* `/user_token` というパスに `username` と `password` をPOSTすることでJWTを発行します。
+* その際すでに `username` が存在すればそのユーザとしてトークンを発行します。 `username` が存在しなければユーザを作成しトークンを発行します。
+* トークンの発行以外のリクエストはリクエストヘッダまたはクエリにトークンの情報を含めてリクエストが必須です。
+
+* リクエストヘッダに含める場合
+  * `Authorization: Bearer ey1NiJ9.eyJeHAiOjE0NzIx.eJwj1-gzvaFP0DU`
+
+* クエリに含める場合
+  * `/todos?token=ey1NiJ9.eyJeHAiOjE0NzIx.eJwj1-gzvaFP0DU`
+
 
 ## <a name="resource-todo"></a>Todo
 
@@ -52,7 +73,7 @@ GET /todos
 #### Curl Example
 
 ```bash
-$ curl -n https://hoge.example.com/todos
+$ curl -n http://localhost:3000/todos
 ```
 
 
@@ -86,7 +107,7 @@ GET /todos/{todo_id}
 #### Curl Example
 
 ```bash
-$ curl -n https://hoge.example.com/todos/$TODO_ID
+$ curl -n http://localhost:3000/todos/$TODO_ID
 ```
 
 
@@ -131,7 +152,7 @@ POST /todos
 #### Curl Example
 
 ```bash
-$ curl -n -X POST https://hoge.example.com/todos \
+$ curl -n -X POST http://localhost:3000/todos \
   -d '{
   "title": "タイトル サンプル",
   "body": "内容 サンプル"
@@ -181,7 +202,7 @@ PATCH /todos/{todo_id}
 #### Curl Example
 
 ```bash
-$ curl -n -X PATCH https://hoge.example.com/todos/$TODO_ID \
+$ curl -n -X PATCH http://localhost:3000/todos/$TODO_ID \
   -d '{
   "title": "タイトル サンプル",
   "body": "内容 サンプル"
@@ -218,7 +239,7 @@ DELETE /todos/{todo_id}
 #### Curl Example
 
 ```bash
-$ curl -n -X DELETE https://hoge.example.com/todos/$TODO_ID \
+$ curl -n -X DELETE http://localhost:3000/todos/$TODO_ID \
   -H "Content-Type: application/json"
 ```
 
@@ -231,6 +252,60 @@ HTTP/1.1 204 No Content
 
 ```json
 No body
+```
+
+
+## <a name="resource-user_token"></a>User Token(JWT)
+
+tokenを発行する
+
+### Attributes
+
+| Name | Type | Description | Example |
+| ------- | ------- | ------- | ------- |
+| **jwt** | *string* | Json Web Token | `"eyJ0eXAiOiJKV1QiLCJhbaciOiJIUzI1NiJ9.eyJleHAiOjE0NzIxghlwNDUsInN1eiI6Nn0.eJlwj1-gzvajsX8o-I8YjUuHw-5s8sZ4kzgMR4FP0DU"` |
+
+### User Token(JWT) トークン生成
+
+ユーザが存在すればJWTトークンを生成する、ユーザが存在しなければユーザを作成しJWTトークンを生成する。
+
+```
+POST /user_token
+```
+
+#### Required Parameters
+
+| Name | Type | Description | Example |
+| ------- | ------- | ------- | ------- |
+| **auth:password** | *string* | パスワード | `"password"` |
+| **auth:username** | *string* | ユーザ名 | `"yusabana"` |
+
+
+
+#### Curl Example
+
+```bash
+$ curl -n -X POST http://localhost:3000/user_token \
+  -d '{
+  "auth": {
+    "username": "yusabana",
+    "password": "password"
+  }
+}' \
+  -H "Content-Type: application/json"
+```
+
+
+#### Response Example
+
+```
+HTTP/1.1 201 Created
+```
+
+```json
+{
+  "jwt": "eyJ0eXAiOiJKV1QiLCJhbaciOiJIUzI1NiJ9.eyJleHAiOjE0NzIxghlwNDUsInN1eiI6Nn0.eJlwj1-gzvajsX8o-I8YjUuHw-5s8sZ4kzgMR4FP0DU"
+}
 ```
 
 

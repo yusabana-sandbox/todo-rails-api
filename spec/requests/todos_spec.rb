@@ -22,6 +22,9 @@ RSpec.describe 'Todos', type: :request do
       is_expected.to eq 200
       expect(response.body).to be_json_as(todos: expected)
     end
+
+
+    it 'tokenの有効期限が切れた時は401となる'
   end
 
 

@@ -6,5 +6,5 @@ title: Todo API v1
 type:
   - object
 links:
-  - href: https://hoge.example.com
+  - href: http://localhost:3000
     rel:  self

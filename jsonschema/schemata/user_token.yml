@@ -1,0 +1,60 @@
+---
+"$schema": http://json-schema.org/draft-04/hyper-schema
+title: User Token(JWT)
+description: tokenを発行する
+stability: prototype
+strictProperties: true
+type:
+  - object
+definitions:
+  username:
+    description: ユーザ名
+    readOnly: true
+    example: yusabana
+    type:
+      - string
+  password:
+    description: パスワード
+    readOnly: true
+    example: password
+    type:
+      - string
+  auth:
+    description: 認証時のパラメータ
+    readOnly: true
+    properties:
+      username:
+        "$ref": "#/definitions/user_token/definitions/username"
+      password:
+        "$ref": "#/definitions/user_token/definitions/password"
+    type:
+      - object
+  jwt:
+    description: Json Web Token
+    readOnly: true
+    example: eyJ0eXAiOiJKV1QiLCJhbaciOiJIUzI1NiJ9.eyJleHAiOjE0NzIxghlwNDUsInN1eiI6Nn0.eJlwj1-gzvajsX8o-I8YjUuHw-5s8sZ4kzgMR4FP0DU
+    type:
+      - string
+
+links:
+  - description: ユーザが存在すればJWTトークンを生成する、ユーザが存在しなければユーザを作成しJWTトークンを生成する。
+    href: "/user_token"
+    method: POST
+    rel: create
+    schema:
+      properties:
+        auth:
+          "$ref": "#/definitions/user_token/definitions/auth"
+      required:
+        - auth
+      type:
+        - object
+    type:
+      - object
+    title: トークン生成
+
+properties:
+  jwt:
+    "$ref": "/schemata/user_token/definitions/jwt"
+
+id: schemata/user_token
