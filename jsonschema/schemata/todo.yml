@@ -102,8 +102,6 @@ links:
           "$ref": "#/definitions/todo/definitions/title"
         body:
           "$ref": "#/definitions/todo/definitions/body"
-      required:
-        - title
       type:
         - object
     targetSchema:

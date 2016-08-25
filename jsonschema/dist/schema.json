@@ -159,9 +159,6 @@
                 "$ref": "#/definitions/todo/definitions/body"
               }
             },
-            "required": [
-              "title"
-            ],
             "type": [
               "object"
             ]
