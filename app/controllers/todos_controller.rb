@@ -1,5 +1,5 @@
 class TodosController < ApplicationController
-  # before_action :authenticate_user
+  before_action :authenticate_user
   before_action :set_todo, only: [:show, :update, :destroy]
 
   validates :create do
@@ -8,7 +8,7 @@ class TodosController < ApplicationController
   end
 
   validates :update do
-    string :title, required: true, strong: true
+    string :title, strong: true
     string :body, strong: true
   end
 

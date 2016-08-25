@@ -18,4 +18,8 @@ class User < ApplicationRecord
     username = request.params[:auth] && request.params[:auth][:username]
     find_by(username: username)
   end
+
+  def self.from_token_payload(payload)
+    find(payload['sub'])
+  end
 end
