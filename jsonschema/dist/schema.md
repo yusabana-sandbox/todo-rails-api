@@ -185,18 +185,12 @@ idで指定したTodoの情報を更新する。
 PATCH /todos/{todo_id}
 ```
 
-#### Required Parameters
-
-| Name | Type | Description | Example |
-| ------- | ------- | ------- | ------- |
-| **title** | *string* | タイトル | `"タイトル サンプル"` |
-
-
 #### Optional Parameters
 
 | Name | Type | Description | Example |
 | ------- | ------- | ------- | ------- |
 | **body** | *string* | 内容 | `"内容 サンプル"` |
+| **title** | *string* | タイトル | `"タイトル サンプル"` |
 
 
 #### Curl Example
