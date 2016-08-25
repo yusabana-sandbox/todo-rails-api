@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Todos', type: :request do
+  let(:user) { create(:user) }
+
   before :each do
-    user = create(:user)
     token = Knock::AuthToken.new(payload: { sub: user.id }).token
     headers['Authorization'] = "Bearer #{token}"
   end
@@ -14,7 +15,7 @@ RSpec.describe 'Todos', type: :request do
     end
 
     it 'return 200 Todoの配列がレスポンスされる' do
-      todos = create_list(:todo, 2)
+      todos = create_list(:todo, 2, user: user)
       expected = todos.each_with_object([]) do |todo, memo|
         memo << {id: todo.id, title: todo.title, body: todo.body}
       end
@@ -23,14 +24,13 @@ RSpec.describe 'Todos', type: :request do
       expect(response.body).to be_json_as(todos: expected)
     end
 
-
     it 'tokenの有効期限が切れた時は401となる'
   end
 
 
   describe 'GET /todos/:id' do
     context '正しいパラメータの時' do
-      let!(:todo) { create(:todo) }
+      let!(:todo) { create(:todo, user: user) }
       let(:id) { todo.id }
 
       it 'return 200 Todoが1件レスポンスされる' do
@@ -49,9 +49,20 @@ RSpec.describe 'Todos', type: :request do
       end
 
       it 'return exception Todoが存在するがエラーがレスポンスされる' do
-        create(:todo)
+        create(:todo, user: user)
         expect { is_expected }.to raise_error ActiveRecord::RecordNotFound
       end
+
+      context '異なるユーザのidが指定される' do
+        let!(:todo) { create(:todo, user: user) }
+        let!(:another_user_todo) { create(:todo, user: create(:user, username: 'another_username')) }
+        let(:id) { another_user_todo.id }
+
+        it 'return exception 違うユーザのidが指定されるとエラーがレスポンスされる' do
+          expect { is_expected }.to raise_error ActiveRecord::RecordNotFound
+        end
+      end
+
     end
   end
 
@@ -85,7 +96,7 @@ RSpec.describe 'Todos', type: :request do
   end
 
   describe 'PATCH /todos/:id' do
-    let!(:todo) { create(:todo) }
+    let!(:todo) { create(:todo, user: user) }
     let(:id) { todo.id }
 
     context '正しいパラメータの時' do
@@ -106,7 +117,6 @@ RSpec.describe 'Todos', type: :request do
           todo: {id: todo.id, title: todo.title, body: 'update_body'}
         )
       end
-
     end
 
     context '不正なパラメータの時' do
@@ -118,8 +128,18 @@ RSpec.describe 'Todos', type: :request do
         end
 
         it 'return exception Todoが存在するがエラーがレスポンスされる' do
-          create(:todo)
+          create(:todo, user: user)
           expect { is_expected }.to raise_error ActiveRecord::RecordNotFound
+        end
+
+        context '異なるユーザのidが指定された時' do
+          let!(:todo) { create(:todo, user: user) }
+          let!(:another_user_todo) { create(:todo, user: create(:user, username: 'another_username')) }
+          let(:id) { another_user_todo.id }
+
+          it 'return exception 違うユーザのidが指定されるとエラーがレスポンスされる' do
+            expect { is_expected }.to raise_error ActiveRecord::RecordNotFound
+          end
         end
       end
 
@@ -135,7 +155,7 @@ RSpec.describe 'Todos', type: :request do
 
   describe 'DELETE /todos/:id' do
     context '正しいパラメータの時' do
-      let!(:todo) { create(:todo) }
+      let!(:todo) { create(:todo, user: user) }
       let(:id) { todo.id }
 
       it 'return 204 Todoが削除される' do
@@ -154,8 +174,18 @@ RSpec.describe 'Todos', type: :request do
         end
 
         it 'return exception Todoが存在するがエラーがレスポンスされる' do
-          create(:todo)
+          create(:todo, user: user)
           expect { is_expected }.to raise_error ActiveRecord::RecordNotFound
+        end
+
+        context '異なるユーザのidが指定された時' do
+          let!(:todo) { create(:todo, user: user) }
+          let!(:another_user_todo) { create(:todo, user: create(:user, username: 'another_username')) }
+          let(:id) { another_user_todo.id }
+
+          it 'return exception 違うユーザのidが指定されるとエラーがレスポンスされる' do
+            expect { is_expected }.to raise_error ActiveRecord::RecordNotFound
+          end
         end
       end
     end
